@@ -15,6 +15,8 @@ mp_draw = mp.solutions.drawing_utils
 # Display the video stream
 while cap.isOpened():
     res, frame = cap.read()
+    # Flip the frame to display like a mirror
+    frame = cv2.flip(frame, 3)
     if res:
         # Convert color channels of the frame to RGB for mediapipe
         frame_RGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
