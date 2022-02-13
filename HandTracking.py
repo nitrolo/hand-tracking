@@ -24,8 +24,9 @@ while cap.isOpened():
         # Check if hand(s) is/are detected and display landmark points on each hand
         if results.multi_hand_landmarks:
             for single_hand_landmarks in results.multi_hand_landmarks:
-                # Draw landmarks on each hand
-                mp_draw.draw_landmarks(frame, single_hand_landmarks)
+                # Draw landmarks and their connections on each hand
+                mp_draw.draw_landmarks(
+                    frame, single_hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
         # Display the frame
         cv2.imshow("Video", frame)
