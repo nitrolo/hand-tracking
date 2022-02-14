@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+import time
 
 # Start capturing webcam feed
 cap = cv2.VideoCapture(0)
@@ -12,6 +13,8 @@ hands = mp_hands.Hands()
 # Using drawing_utils to allow us to draw the hand skeleton
 mp_draw = mp.solutions.drawing_utils
 
+prev_frame_time, curr_frame_time = 0, 0
+
 # Display the video stream
 while cap.isOpened():
     res, frame = cap.read()
@@ -20,7 +23,7 @@ while cap.isOpened():
     if res:
         # Convert color channels of the frame to RGB for mediapipe
         frame_RGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        # process the current frame using mediapipe's Hand class
+        # Process the current frame using mediapipe's Hand class
         results = hands.process(frame_RGB)
 
         # Check if hand(s) is/are detected and display landmark points on each hand
@@ -29,6 +32,15 @@ while cap.isOpened():
                 # Draw landmarks and their connections on each hand
                 mp_draw.draw_landmarks(
                     frame, single_hand_landmarks, mp_hands.HAND_CONNECTIONS)
+
+        # Calculate the FPS
+        curr_frame_time = time.time()
+        fps = 1 / (curr_frame_time - prev_frame_time)
+        prev_frame_time = curr_frame_time
+
+        # Display FPS on the frame
+        cv2.putText(frame, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_SIMPLEX,
+                    3, (255, 200, 200), 3)
 
         # Display the frame
         cv2.imshow("Video", frame)
