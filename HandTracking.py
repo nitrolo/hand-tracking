@@ -39,8 +39,8 @@ while cap.isOpened():
         prev_frame_time = curr_frame_time
 
         # Display FPS on the frame
-        cv2.putText(frame, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_SIMPLEX,
-                    3, (255, 200, 200), 3)
+        cv2.putText(frame, str(int(fps)), (20, 60), cv2.FONT_HERSHEY_PLAIN,
+                    3, (255, 0, 200), 3)
 
         # Display the frame
         cv2.imshow("Video", frame)
