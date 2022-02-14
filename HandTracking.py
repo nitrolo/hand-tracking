@@ -29,6 +29,15 @@ while cap.isOpened():
         # Check if hand(s) is/are detected and display landmark points on each hand
         if results.multi_hand_landmarks:
             for single_hand_landmarks in results.multi_hand_landmarks:
+                # Get position of each landmark
+                for landmark_id, landmark in enumerate(single_hand_landmarks.landmark):
+                    height, width, channels = frame.shape
+                    # Convert ratio values of the landmark coordinates to pixels
+                    landmark_x, landmark_y = int(landmark.x * width), int(landmark.y * height)
+                    # Detect the tip of each finger
+                    if landmark_id != 0 and landmark_id % 4 == 0:
+                        cv2.circle(frame, (landmark_x, landmark_y), 15,
+                                   (0, 255, 0), cv2.FILLED)
                 # Draw landmarks and their connections on each hand
                 mp_draw.draw_landmarks(
                     frame, single_hand_landmarks, mp_hands.HAND_CONNECTIONS)
